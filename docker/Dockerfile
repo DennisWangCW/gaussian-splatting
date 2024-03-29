@@ -84,6 +84,6 @@ RUN echo "export MESA_GL_VERSION_OVERRIDE=4.5" >> /root/.bashrc
 # install point cloud library to view .ply file
 RUN apt update && apt install -y libpcl-dev pcl-tools && apt clean && rm -rf /var/lib/apt/lists/*
 
-# RUN echo "export DISPLAY=:0" >> /root/.bashrc
-WORKDIR /workspace/gaussian-splatting
+# RUN echo "conda activate gaussian_splatting" >> /root/.bashrc
+WORKDIR /workspace
 

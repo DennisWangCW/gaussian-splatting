@@ -14,7 +14,7 @@ git clone https://github.com/graphdeco-inria/gaussian-splatting
 cd gaussian-splatting/docker
 docker build -t gaussian-splatting .
 docker run --name 3dgs -it --gpus all 
-    -v ${your_hostmachine_workdir}:/workspace 
+    -v ${your_hostmachine_workdir}:/workspace/data 
     --net host # use host network
     -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -e GDK_SCALE -e GDK_DPI_SCALE # use host display device
     gaussian_splatting /bin/bash
