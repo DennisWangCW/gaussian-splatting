@@ -56,17 +56,11 @@ WORKDIR /workspace/gaussian-splatting
 
 RUN conda env create --file environment.yml && conda init bash && exec bash && conda activate gaussian_splatting
 
-# Make gaussian_splatting the default environment on start
-RUN echo "conda activate gaussian_splatting" >> /root/.bashrc
+RUN pip install lpips wandb
+
 
 # Tweak the CMake file for matching the existing OpenCV version. Fix the naming of FindEmbree.cmake
 WORKDIR /workspace/gaussian-splatting/SIBR_viewers/cmake/linux
-RUN sed -i 's/find_package(OpenCV 4\.5 REQUIRED)/find_package(OpenCV 4.2 REQUIRED)/g' dependencies.cmake
-RUN sed -i 's/find_package(embree 3\.0 )/find_package(EMBREE)/g' dependencies.cmake
-# RUN mv /workspace/gaussian-splatting/SIBR_viewers/cmake/linux/Modules/FindEmbree.cmake /workspace/gaussian-splatting/SIBR_viewers/cmake/linux/Modules/FindEMBREE.cmake
-
-# Fix the naming of the embree library in the rayscaster's cmake
-RUN sed -i 's/\bembree\b/embree3/g' /workspace/gaussian-splatting/SIBR_viewers/src/core/raycaster/CMakeLists.txt
 
 # Ready to build the viewer now.
 WORKDIR /workspace/gaussian-splatting/SIBR_viewers 
@@ -84,6 +78,5 @@ RUN echo "export MESA_GL_VERSION_OVERRIDE=4.5" >> /root/.bashrc
 # install point cloud library to view .ply file
 RUN apt update && apt install -y libpcl-dev pcl-tools && apt clean && rm -rf /var/lib/apt/lists/*
 
-# RUN echo "conda activate gaussian_splatting" >> /root/.bashrc
 WORKDIR /workspace
 

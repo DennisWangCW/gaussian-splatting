@@ -53,6 +53,7 @@ class ModelParams(ParamGroup):
         self._resolution = -1
         self._white_background = False
         self.data_device = "cuda"
+        self.resolution_scales = [1.0]
         self.eval = False
         super().__init__(parser, "Loading Parameters", sentinel)
 
@@ -88,6 +89,10 @@ class OptimizationParams(ParamGroup):
         self.densify_grad_threshold = 0.0002
         self.random_background = False
         super().__init__(parser, "Optimization Parameters")
+    
+    def update(self, args):
+        args.position_lr_max_steps = args.iterations
+        return args
 
 def get_combined_args(parser : ArgumentParser):
     cmdlne_string = sys.argv[1:]
